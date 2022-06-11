@@ -1,6 +1,6 @@
 package com.example.craftsmanship_forum
 
-data class Reply(val creator: String, val content: String)
+data class Reply(val creator: String, val content: String, val postDate: String)
 
 class Post() {
     companion object Factory {
@@ -12,5 +12,5 @@ class Post() {
     var postDate: String? = ""
     var creator: String? = ""
     var content: String? = ""
-    var replys: ArrayList<Reply> = ArrayList<Reply>()
+    var replys: ArrayList<Reply>? = ArrayList<Reply>()
 }

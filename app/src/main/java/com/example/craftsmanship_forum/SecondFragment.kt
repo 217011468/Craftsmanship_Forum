@@ -18,9 +18,9 @@ class SecondFragment : Fragment() {
     private var _binding: FragmentSecondBinding? = null
 
     lateinit var _db: DatabaseReference
-    lateinit var _adapter: PostAdapter
+    lateinit var _adapter: ViewPostAdapter
 
-    var _postList: MutableList<Post> = mutableListOf()
+    var _post: Array<Post> = arrayOf(Post())
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -40,7 +40,7 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         _db = FirebaseDatabase.getInstance("https://craftsmanship-forum-default-rtdb.firebaseio.com/").reference
-        _adapter = PostAdapter(view.context, _postList!!)
+        _adapter = ViewPostAdapter(view.context, _post)
         binding.listViewViewPosts.setAdapter(_adapter)
         _db.orderByKey().addValueEventListener(_postListener)
     }
@@ -57,8 +57,6 @@ class SecondFragment : Fragment() {
 
         //Check if current database contains any collection
         if (tasks.hasNext()) {
-
-            _postList!!.clear()
 
             val listIndex = tasks.next()
             val itemsIterator = listIndex.children.iterator()
@@ -79,7 +77,14 @@ class SecondFragment : Fragment() {
                 post.postDate = map.get("postDate") as String?
                 post.creator = map.get("creator") as String?
                 post.content = map.get("content") as String?
-                _postList!!.add(post)
+                post.replys = map.get("replys") as ArrayList<Reply>?
+                if (post.replys == null) {
+                    post.replys = ArrayList<Reply>()
+                }
+
+                if (post.objectId == Static.viewPostObjectId) {
+                    _post[0] = post
+                }
             }
         }
 

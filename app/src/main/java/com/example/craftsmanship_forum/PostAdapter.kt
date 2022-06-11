@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
-class PostAdapter(context: Context, taskList: MutableList<Post>) : BaseAdapter() {
+class PostAdapter(context: Context, postList: MutableList<Post>) : BaseAdapter() {
 
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
-    private var _postList = taskList
+    private var _postList = postList
 
     //private var _rowListener: PostRowListener = context as PostRowListener
 
@@ -35,14 +35,6 @@ class PostAdapter(context: Context, taskList: MutableList<Post>) : BaseAdapter()
         listRowHolder.title.text = title
         listRowHolder.postDate.text = postDate
         listRowHolder.creator.text = creator
-
-        listRowHolder.title.setOnClickListener {
-            Toast.makeText(
-                null,
-                "Your post is published!",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
 
         return view
     }
