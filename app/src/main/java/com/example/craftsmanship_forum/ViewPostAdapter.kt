@@ -25,7 +25,7 @@ class ViewPostAdapter(context: Context, post: Array<Post>) : BaseAdapter() {
             val view: View
             val listRowHolder: ListRowHolder
             if (convertView == null) {
-                view = _inflater.inflate(R.layout.posts_list_item, parent, false)
+                view = _inflater.inflate(R.layout.view_posts_list_item, parent, false)
                 listRowHolder = ListRowHolder(view)
                 view.tag = listRowHolder
             } else {
@@ -36,6 +36,7 @@ class ViewPostAdapter(context: Context, post: Array<Post>) : BaseAdapter() {
             listRowHolder.title.text = title
             listRowHolder.postDate.text = postDate
             listRowHolder.creator.text = creator
+            listRowHolder.content.text = content
             return view
         } else {
 
@@ -56,6 +57,9 @@ class ViewPostAdapter(context: Context, post: Array<Post>) : BaseAdapter() {
 
             listRowHolder.postDate.text = postDate
             listRowHolder.creator.text = creator
+            listRowHolder.content.text = content
+
+            listRowHolder.title.visibility = View.GONE
             return view
         }
     }
@@ -77,8 +81,9 @@ class ViewPostAdapter(context: Context, post: Array<Post>) : BaseAdapter() {
     }
 
     private class ListRowHolder(row: View?) {
-        val title: TextView = row!!.findViewById(R.id.textViewTitle)
-        val postDate: TextView = row!!.findViewById(R.id.textViewPostDate)
-        val creator: TextView = row!!.findViewById(R.id.textViewUsername)
+        val title: TextView = row!!.findViewById(R.id.viewPost_textViewTitle)
+        val postDate: TextView = row!!.findViewById(R.id.viewPost_textViewPostDate)
+        val creator: TextView = row!!.findViewById(R.id.viewPost_textViewUsername)
+        val content: TextView = row!!.findViewById(R.id.viewPost_textViewContent)
     }
 }

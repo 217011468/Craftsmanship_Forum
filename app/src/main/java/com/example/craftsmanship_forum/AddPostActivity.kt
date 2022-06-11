@@ -34,7 +34,7 @@ class AddPostActivity : AppCompatActivity() {
         post.postDate = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date());
         post.creator = LoginInfo.email
         post.content = content
-        post.replys.add(Reply("Test", "faesrnwea"))
+        post.replys?.add(Reply("Test", "faesrnwea", SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date())))
 
         //Get the object id for the new task from the Firebase Database
         val newPost = _db.child("Post").push()
