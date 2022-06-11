@@ -1,6 +1,7 @@
 package com.example.craftsmanship_forum
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Base64
 import com.google.android.material.snackbar.Snackbar
@@ -12,15 +13,23 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.craftsmanship_forum.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricPrompt
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             onBtnAddClickListener(view)
         }
 
-        val sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
         if (sharedPreferences!!.contains(Static.sharedPreferenceAutoLogin)) {
             Static.autoLogin = (sharedPreferences!!.getString(Static.sharedPreferenceAutoLogin, "") == "true")
         }
@@ -46,25 +55,12 @@ class MainActivity : AppCompatActivity() {
             Static.useBiometrics = (sharedPreferences!!.getString(Static.sharedPreferenceUseBiometrics, "") == "true")
         }
 
-        if (sharedPreferences!!.contains(Static.sharedPreferenceEmail) && sharedPreferences!!.contains(Static.sharedPreferenceEmail)) {
-            val base64Email = sharedPreferences!!.getString(Static.sharedPreferenceEmail, "")
-            val base64Password = sharedPreferences!!.getString(Static.sharedPreferencePassword, "")
-            if (base64Email != "" && base64Password != "") {
-                val email = String(Base64.decode(base64Email, Base64.DEFAULT), charset = Charsets.UTF_8)
-                val password = String(Base64.decode(base64Password, Base64.DEFAULT), charset = Charsets.UTF_8)
+        if (Static.autoLogin) {
+            onAutoLogin()
+        }
 
-
-                var auth = FirebaseAuth.getInstance()
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        LoginInfo.isLogined = true
-                        LoginInfo.email = email
-                        Toast.makeText( this, "Logged in as $email", Toast.LENGTH_SHORT).show()
-                    }
-                }.addOnFailureListener { exception ->
-                    Toast.makeText(applicationContext,exception.localizedMessage, Toast.LENGTH_LONG).show()
-                }
-            }
+        if (Static.useBiometrics) {
+            onBiometricsLogin()
         }
     }
 
@@ -82,18 +78,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        super.onResume()
         if (!LoginInfo.isLogined) {
             binding.btnAdd.visibility = View.GONE
         } else {
             binding.btnAdd.visibility = View.VISIBLE
         }
-        super.onResume()
+
+        // Maybe useful in future
+        /*
+        val biometricManager = BiometricManager.from(this)
+        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {}
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {}
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {}
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {}
+        }
+        */
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
@@ -125,5 +129,94 @@ class MainActivity : AppCompatActivity() {
     private fun onBtnAddClickListener(view: View) {
         val intent = Intent(this, AddPostActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun isSavedLoginInfo(): Boolean {
+        return sharedPreferences!!.contains(Static.sharedPreferenceEmail) && sharedPreferences!!.contains(
+            Static.sharedPreferenceEmail)
+    }
+
+    private fun onAutoLogin() {
+        if (isSavedLoginInfo()) {
+            val base64Email = sharedPreferences!!.getString(Static.sharedPreferenceEmail, "")
+            val base64Password =
+                sharedPreferences!!.getString(Static.sharedPreferencePassword, "")
+            if (base64Email != "" && base64Password != "") {
+                val email =
+                    String(Base64.decode(base64Email, Base64.DEFAULT), charset = Charsets.UTF_8)
+                val password = String(
+                    Base64.decode(base64Password, Base64.DEFAULT),
+                    charset = Charsets.UTF_8
+                )
+
+
+                var auth = FirebaseAuth.getInstance()
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        LoginInfo.isLogined = true
+                        LoginInfo.email = email
+                        Toast.makeText(this, "Logged in as $email", Toast.LENGTH_SHORT).show()
+                    }
+                }.addOnFailureListener { exception ->
+                    Toast.makeText(
+                        applicationContext,
+                        exception.localizedMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun onBiometricsLogin() {
+        if (isSavedLoginInfo()) {
+            var executor = ContextCompat.getMainExecutor(this)
+
+            var biometricPrompt = BiometricPrompt(this, executor,
+                object : BiometricPrompt.AuthenticationCallback() {
+
+                    override fun onAuthenticationError(
+                        errorCode: Int,
+                        errString: CharSequence
+                    ) {
+                        super.onAuthenticationError(errorCode, errString)
+                        Toast.makeText(
+                            applicationContext,
+                            "Authentication error: $errString", Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+
+                    override fun onAuthenticationSucceeded(
+                        result: BiometricPrompt.AuthenticationResult
+                    ) {
+                        super.onAuthenticationSucceeded(result)
+                        Toast.makeText(
+                            applicationContext,
+                            "Authentication succeeded!", Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        onAutoLogin()
+                    }
+
+                    override fun onAuthenticationFailed() {
+                        super.onAuthenticationFailed()
+                        Toast.makeText(
+                            applicationContext, "Authentication failed",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+
+                })
+
+            var promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric login for my app")
+                .setSubtitle("Log in using your biometric credential")
+                .setNegativeButtonText("Use account password")
+                .build()
+
+            biometricPrompt.authenticate(promptInfo)
+        }
     }
 }

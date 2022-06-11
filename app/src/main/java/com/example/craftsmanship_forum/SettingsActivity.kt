@@ -13,6 +13,13 @@ class SettingsActivity : AppCompatActivity() {
 
         val checkBoxBiometrics = findViewById<CheckBox>(R.id.checkBoxBiometrics)
         val checkBoxAutoLogin = findViewById<CheckBox>(R.id.checkBoxAutoLogin)
+        if (Static.useBiometrics) {
+            checkBoxBiometrics.setChecked(true)
+        }
+        if (Static.autoLogin) {
+            checkBoxAutoLogin.setChecked(true)
+        }
+
 
         checkBoxBiometrics.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (Static.autoLogin) {
@@ -28,12 +35,13 @@ class SettingsActivity : AppCompatActivity() {
         }
         checkBoxAutoLogin.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (Static.useBiometrics) {
+                checkBoxAutoLogin.setChecked(false)
                 Toast.makeText( this, "Cannot use auto login when enabled biometrics", Toast.LENGTH_SHORT).show()
                 return@setOnCheckedChangeListener
             }
 
             Static.autoLogin = isChecked
-            var sharedPreferences = getSharedPreferences(Static.sharedPreferenceAutoLogin, MODE_PRIVATE)
+            var sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
             val editor = sharedPreferences.edit()
 
             editor.putString(Static.sharedPreferenceAutoLogin, if (isChecked) "true" else "false")
