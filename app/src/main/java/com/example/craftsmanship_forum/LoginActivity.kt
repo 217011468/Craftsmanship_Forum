@@ -27,11 +27,10 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
 
             if (task.isSuccessful) {
-
-                val intent= Intent(this,MainActivity::class.java)
-
+                LoginInfo.isLogined = true
+                LoginInfo.email = email
+                val intent = Intent(this,MainActivity::class.java)
                 startActivity(intent)
-
                 finish()
 
             }

@@ -26,12 +26,12 @@ class RegisterActivity : AppCompatActivity() {
 
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val intent= Intent(this,MainActivity::class.java)
+                val intent= Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }.addOnFailureListener { exception ->
-            Toast.makeText(applicationContext,exception.localizedMessage, Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
         }
     }
 

@@ -40,6 +40,7 @@ class FirstFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = "Craftsmanship Forum"
 
         /*val db = DatabaseHandler(this)
         val cards = db.getAllCards()
