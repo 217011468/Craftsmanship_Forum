@@ -43,5 +43,6 @@ class LoginActivity : AppCompatActivity() {
     fun goToRegister(view: View) {
         val intent= Intent(this,RegisterActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }
