@@ -32,8 +32,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.btnAdd.setOnClickListener { view ->
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            //        .setAction("Action", null).show()
+            onBtnAddClickListener(view)
         }
     }
 
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         if (!LoginInfo.isLogined) {
-            binding.btnAdd.visibility = View.GONE
+            //binding.btnAdd.visibility = View.GONE
         } else {
             binding.btnAdd.visibility = View.VISIBLE
         }
@@ -82,5 +81,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    private fun onBtnAddClickListener(view: View) {
+        val intent = Intent(this, AddPostActivity::class.java)
+        startActivity(intent)
     }
 }
