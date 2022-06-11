@@ -39,10 +39,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         val sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
+        if (sharedPreferences!!.contains(Static.sharedPreferenceAutoLogin)) {
+            Static.autoLogin = (sharedPreferences!!.getString(Static.sharedPreferenceAutoLogin, "") == "true")
+        }
+        if (sharedPreferences!!.contains(Static.sharedPreferenceUseBiometrics)) {
+            Static.useBiometrics = (sharedPreferences!!.getString(Static.sharedPreferenceUseBiometrics, "") == "true")
+        }
 
-        if (sharedPreferences!!.contains("Email") && sharedPreferences!!.contains("Password")) {
-            val base64Email = sharedPreferences!!.getString("Email", "")
-            val base64Password = sharedPreferences!!.getString("Password", "")
+        if (sharedPreferences!!.contains(Static.sharedPreferenceEmail) && sharedPreferences!!.contains(Static.sharedPreferenceEmail)) {
+            val base64Email = sharedPreferences!!.getString(Static.sharedPreferenceEmail, "")
+            val base64Password = sharedPreferences!!.getString(Static.sharedPreferencePassword, "")
             if (base64Email != "" && base64Password != "") {
                 val email = String(Base64.decode(base64Email, Base64.DEFAULT), charset = Charsets.UTF_8)
                 val password = String(Base64.decode(base64Password, Base64.DEFAULT), charset = Charsets.UTF_8)

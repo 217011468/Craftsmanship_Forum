@@ -32,8 +32,8 @@ class LoginActivity : AppCompatActivity() {
                 LoginInfo.email = email
                 var sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
-                editor.putString("Email", Base64.encodeToString(email.toByteArray(charset("UTF-8")), Base64.DEFAULT))
-                editor.putString("Password", Base64.encodeToString(password.toByteArray(charset("UTF-8")), Base64.DEFAULT))
+                editor.putString(Static.sharedPreferenceEmail, Base64.encodeToString(email.toByteArray(charset("UTF-8")), Base64.DEFAULT))
+                editor.putString(Static.sharedPreferencePassword, Base64.encodeToString(password.toByteArray(charset("UTF-8")), Base64.DEFAULT))
                 editor.commit()
                 Toast.makeText( this, "Logged in as $email", Toast.LENGTH_SHORT).show()
                 finish()

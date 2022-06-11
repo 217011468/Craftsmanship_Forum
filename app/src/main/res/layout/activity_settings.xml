@@ -6,4 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <CheckBox
+        android:id="@+id/checkBoxBiometrics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use biometrics to login"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAutoLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxBiometrics" />
 </androidx.constraintlayout.widget.ConstraintLayout>
