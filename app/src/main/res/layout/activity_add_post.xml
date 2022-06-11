@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="buttonPostCompleteOnclicked"
     tools:context=".AddPostActivity">
 
     <EditText
@@ -26,23 +27,24 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="top|left"
-        android:inputType="textCapSentences|textMultiLine"
         android:hint="Content"
+        android:inputType="textCapSentences|textMultiLine"
         android:lines="200"
         android:minLines="5"
-        android:scrollHorizontally="true"
         android:scrollbars="vertical"
+        android:scrollHorizontally="true"
         app:layout_constraintStart_toStartOf="@+id/editTextPostTitle"
         app:layout_constraintTop_toBottomOf="@+id/editTextPostTitle" />
 
-    <Button
-        android:id="@+id/buttonPostComplete"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnPostComplete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="buttonPostCompleteOnclicked"
-        android:text="Post"
+        android:layout_gravity="bottom|end"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/editTextPostCotent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPostCotent" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

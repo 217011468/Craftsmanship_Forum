@@ -7,17 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.navigation.fragment.findNavController
 import com.example.craftsmanship_forum.databinding.FragmentFirstBinding
 import com.google.firebase.database.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment() : Fragment() {
+class FirstFragment : Fragment() {
     private var _binding: FragmentFirstBinding? = null
     lateinit var _db: DatabaseReference
     lateinit var _adapter: PostAdapter
@@ -43,12 +41,28 @@ class FirstFragment() : Fragment() {
         _db = FirebaseDatabase.getInstance("https://craftsmanship-forum-default-rtdb.firebaseio.com/").reference
         _adapter = PostAdapter(view.context, _postList!!)
         binding.listViewPosts.setAdapter(_adapter)
+        binding.listViewPosts.setOnItemClickListener { adapterView, view, i, l ->  listViewPostsOnItemClick(adapterView, view, i, l) }
         _db.orderByKey().addValueEventListener(_postListener)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun listViewPostsOnItemClick(adapterView: View?, view: View, position: Int, id: Long) {
+        val objectId = _postList[position].objectId
+        if (objectId != null) {
+            Log.d(Static.logTag, objectId!!)
+            Static.viewPostObjectId = _postList[position].objectId
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        } else {
+            Toast.makeText(
+                context,
+                "Fail to find post",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun loadPostList(dataSnapshot: DataSnapshot) {

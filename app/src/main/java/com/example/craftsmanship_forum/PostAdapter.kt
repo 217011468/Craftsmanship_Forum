@@ -4,10 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.CheckBox
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 
 class PostAdapter(context: Context, taskList: MutableList<Post>) : BaseAdapter() {
 
@@ -39,15 +36,13 @@ class PostAdapter(context: Context, taskList: MutableList<Post>) : BaseAdapter()
         listRowHolder.postDate.text = postDate
         listRowHolder.creator.text = creator
 
-        /*
-        listRowHolder.done.setOnClickListener {
-            _rowListener.onTaskChange(objectId, !done)
+        listRowHolder.title.setOnClickListener {
+            Toast.makeText(
+                null,
+                "Your post is published!",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-
-        listRowHolder.remove.setOnClickListener {
-            _rowListener.onTaskDelete(objectId) }
-         */
-
 
         return view
     }
