@@ -10,6 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.craftsmanship_forum.databinding.ActivityMainBinding
 
@@ -30,9 +31,9 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        binding.btnAdd.setOnClickListener { view ->
+            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            //        .setAction("Action", null).show()
         }
     }
 
@@ -40,6 +41,22 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (LoginInfo.isLogined) {
+            menu?.findItem(R.id.action_login_out)?.title = "Logout"
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onResume() {
+        if (!LoginInfo.isLogined) {
+            binding.btnAdd.visibility = View.GONE
+        } else {
+            binding.btnAdd.visibility = View.VISIBLE
+        }
+        super.onResume()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -29,8 +29,8 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 LoginInfo.isLogined = true
                 LoginInfo.email = email
-                val intent = Intent(this,MainActivity::class.java)
-                startActivity(intent)
+                //val intent = Intent(this,MainActivity::class.java)
+                //startActivity(intent)
                 finish()
 
             }
