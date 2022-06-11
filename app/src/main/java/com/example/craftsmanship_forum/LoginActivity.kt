@@ -3,6 +3,7 @@ package com.example.craftsmanship_forum
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -29,6 +30,11 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 LoginInfo.isLogined = true
                 LoginInfo.email = email
+                var sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString("Email", Base64.encodeToString(email.toByteArray(charset("UTF-8")), Base64.DEFAULT))
+                editor.putString("Password", Base64.encodeToString(password.toByteArray(charset("UTF-8")), Base64.DEFAULT))
+                editor.commit()
                 //val intent = Intent(this,MainActivity::class.java)
                 //startActivity(intent)
                 finish()

@@ -2,6 +2,7 @@ package com.example.craftsmanship_forum
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -11,8 +12,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.craftsmanship_forum.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +36,28 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnAdd.setOnClickListener { view ->
             onBtnAddClickListener(view)
+        }
+
+        val sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
+
+        if (sharedPreferences!!.contains("Email") && sharedPreferences!!.contains("Password")) {
+            val base64Email = sharedPreferences!!.getString("Email", "")
+            val base64Password = sharedPreferences!!.getString("Password", "")
+            if (base64Email != "" && base64Password != "") {
+                val email = String(Base64.decode(base64Email, Base64.DEFAULT), charset = Charsets.UTF_8)
+                val password = String(Base64.decode(base64Password, Base64.DEFAULT), charset = Charsets.UTF_8)
+
+
+                var auth = FirebaseAuth.getInstance()
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        LoginInfo.isLogined = true
+                        LoginInfo.email = email
+                    }
+                }.addOnFailureListener { exception ->
+                    Toast.makeText(applicationContext,exception.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
