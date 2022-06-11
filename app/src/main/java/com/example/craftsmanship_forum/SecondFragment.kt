@@ -77,9 +77,12 @@ class SecondFragment : Fragment() {
                 post.postDate = map.get("postDate") as String?
                 post.creator = map.get("creator") as String?
                 post.content = map.get("content") as String?
-                post.replys = map.get("replys") as ArrayList<Reply>?
-                if (post.replys == null) {
-                    post.replys = ArrayList<Reply>()
+                val _replys = map.get("replys") as ArrayList<HashMap<String, String>>?
+                post.replys = ArrayList<Reply>()
+                if (_replys != null) {
+                    for (reply in _replys) {
+                        post.replys!!.add(Reply(reply.get("creator")!!, reply.get("content")!!, reply.get("postDate")!!))
+                    }
                 }
 
                 if (post.objectId == Static.viewPostObjectId) {

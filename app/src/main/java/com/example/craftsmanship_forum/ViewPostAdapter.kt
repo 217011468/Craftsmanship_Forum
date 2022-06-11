@@ -39,28 +39,35 @@ class ViewPostAdapter(context: Context, post: Array<Post>) : BaseAdapter() {
             listRowHolder.content.text = content
             return view
         } else {
+            val replys = _post[0].replys
+            if (replys != null) {
 
-            val postDate: String? = _post[0].replys!!.get(position + 1).postDate
-            val content: String? = _post[0].replys!!.get(position + 1).content
-            val creator: String? = _post[0].replys!!.get(position + 1).creator
+                val postDate: String? = replys.get(position - 1).postDate
+                val content: String? = replys.get(position - 1).content
+                val creator: String? = replys.get(position - 1).creator
 
-            val view: View
-            val listRowHolder: ListRowHolder
-            if (convertView == null) {
-                view = _inflater.inflate(R.layout.posts_list_item, parent, false)
-                listRowHolder = ListRowHolder(view)
-                view.tag = listRowHolder
-            } else {
-                view = convertView
-                listRowHolder = view.tag as ListRowHolder
+                val view: View
+                val listRowHolder: ListRowHolder
+                if (convertView == null) {
+                    view = _inflater.inflate(R.layout.view_posts_list_item, parent, false)
+                    listRowHolder = ListRowHolder(view)
+                    view.tag = listRowHolder
+                } else {
+                    view = convertView
+                    listRowHolder = view.tag as ListRowHolder
+                }
+
+                listRowHolder.tvpostDate.text = "Reply Date: "
+                listRowHolder.postDate.text = postDate
+                listRowHolder.creator.text = creator
+                listRowHolder.content.text = content
+
+                listRowHolder.tvTitle.visibility = View.GONE
+                listRowHolder.title.visibility = View.GONE
+                return view
             }
 
-            listRowHolder.postDate.text = postDate
-            listRowHolder.creator.text = creator
-            listRowHolder.content.text = content
-
-            listRowHolder.title.visibility = View.GONE
-            return view
+            return _inflater.inflate(R.layout.view_posts_list_item, parent, false)
         }
     }
 
@@ -68,7 +75,7 @@ class ViewPostAdapter(context: Context, post: Array<Post>) : BaseAdapter() {
         return if (index == 0) {
             _post[0]
         } else {
-            _post[0].replys!!.get(index + 1)
+            _post[0].replys!!.get(index - 1)
         }
     }
 
@@ -81,8 +88,10 @@ class ViewPostAdapter(context: Context, post: Array<Post>) : BaseAdapter() {
     }
 
     private class ListRowHolder(row: View?) {
+        val tvTitle: TextView = row!!.findViewById(R.id.viewPost_tvTitle)
         val title: TextView = row!!.findViewById(R.id.viewPost_textViewTitle)
         val postDate: TextView = row!!.findViewById(R.id.viewPost_textViewPostDate)
+        val tvpostDate: TextView = row!!.findViewById(R.id.viewPost_tvPostDate)
         val creator: TextView = row!!.findViewById(R.id.viewPost_textViewUsername)
         val content: TextView = row!!.findViewById(R.id.viewPost_textViewContent)
     }
