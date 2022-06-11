@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         if (!LoginInfo.isLogined) {
-            //binding.btnAdd.visibility = View.GONE
+            binding.btnAdd.visibility = View.GONE
         } else {
             binding.btnAdd.visibility = View.VISIBLE
         }
@@ -94,8 +94,14 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_login_out -> {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+                if (LoginInfo.isLogined) {
+                    LoginInfo.isLogined = false
+                    LoginInfo.email = ""
+                    Toast.makeText( this, "Logged out", Toast.LENGTH_SHORT).show()
+                } else {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
