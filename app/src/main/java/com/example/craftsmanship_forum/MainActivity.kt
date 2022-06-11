@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         LoginInfo.isLogined = true
                         LoginInfo.email = email
+                        Toast.makeText( this, "Logged in as $email", Toast.LENGTH_SHORT).show()
                     }
                 }.addOnFailureListener { exception ->
                     Toast.makeText(applicationContext,exception.localizedMessage, Toast.LENGTH_LONG).show()
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity() {
                 if (LoginInfo.isLogined) {
                     LoginInfo.isLogined = false
                     LoginInfo.email = ""
+                    item.title = "Login"
                     Toast.makeText( this, "Logged out", Toast.LENGTH_SHORT).show()
                 } else {
                     val intent = Intent(this, LoginActivity::class.java)

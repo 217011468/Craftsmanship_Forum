@@ -35,8 +35,7 @@ class LoginActivity : AppCompatActivity() {
                 editor.putString("Email", Base64.encodeToString(email.toByteArray(charset("UTF-8")), Base64.DEFAULT))
                 editor.putString("Password", Base64.encodeToString(password.toByteArray(charset("UTF-8")), Base64.DEFAULT))
                 editor.commit()
-                //val intent = Intent(this,MainActivity::class.java)
-                //startActivity(intent)
+                Toast.makeText( this, "Logged in as $email", Toast.LENGTH_SHORT).show()
                 finish()
 
             }
