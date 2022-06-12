@@ -27,6 +27,7 @@ class AddPostActivity : AppCompatActivity() {
 
         if (Static.mainActivityFragment == 2) {
             findViewById<EditText>(R.id.editTextPostTitle).visibility = View.GONE
+            findViewById<EditText>(R.id.btnAddMap).visibility = View.GONE
             _db.orderByKey().addValueEventListener(_postListener)
         }
     }
