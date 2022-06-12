@@ -22,6 +22,9 @@ class AddPostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
 
+        Static.addCurrentLocation_longitute = null
+        Static.addCurrentLocation_latitute = null
+
         _db = FirebaseDatabase.getInstance("https://craftsmanship-forum-default-rtdb.firebaseio.com/").reference
 
         findViewById<FloatingActionButton>(R.id.btnPostComplete).setOnClickListener { view -> btnPostCompleteOnclicked(view) }
@@ -46,6 +49,10 @@ class AddPostActivity : AppCompatActivity() {
                 SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date());
             post.creator = LoginInfo.email
             post.content = content
+            if (Static.addCurrentLocation_latitute != null && Static.addCurrentLocation_longitute != null) {
+                post.latitute = Static.addCurrentLocation_latitute.toString()
+                post.longitute = Static.addCurrentLocation_longitute.toString()
+            }
 
             //Get the object id for the new task from the Firebase Database
             val newPost = _db.child("Post").push()
@@ -83,6 +90,10 @@ class AddPostActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun loadPostList(dataSnapshot: DataSnapshot) {
         Log.d(Static.logTag, "loadTaskList")
 
@@ -110,8 +121,8 @@ class AddPostActivity : AppCompatActivity() {
                 post.postDate = map.get("postDate") as String?
                 post.creator = map.get("creator") as String?
                 post.content = map.get("content") as String?
-                post.latitute = map.get("latitute") as Double?
-                post.longitute = map.get("longitute") as Double?
+                post.latitute = map.get("latitute") as String?
+                post.longitute = map.get("longitute") as String?
                 val _replys = map.get("replys") as ArrayList<HashMap<String, String>>?
                 post.replys = ArrayList<Reply>()
                 if (_replys != null) {

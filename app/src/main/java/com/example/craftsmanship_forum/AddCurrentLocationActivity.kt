@@ -1,14 +1,13 @@
 package com.example.craftsmanship_forum
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -16,11 +15,12 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import java.text.DateFormat
-import java.text.DateFormat.getTimeInstance
 import java.util.*
+
 
 class AddCurrentLocationActivity : AppCompatActivity() {
     // member views
@@ -36,6 +36,9 @@ class AddCurrentLocationActivity : AppCompatActivity() {
     protected var mGeocoder: Geocoder? = null
     protected var mLocationProvider: FusedLocationProviderClient? = null
 
+    private var latitute: Double? = null
+    private var longitute: Double? = null
+
     companion object {
         var REQUEST_LOCATION = 1
     }
@@ -46,6 +49,9 @@ class AddCurrentLocationActivity : AppCompatActivity() {
             mLatitudeText!!.text = mLastLocation!!.latitude.toString()
             mLongitudeText!!.text = mLastLocation!!.longitude.toString()
             mTimeText!!.text = DateFormat.getTimeInstance().format(Date())
+
+            latitute = mLastLocation!!.latitude
+            longitute = mLastLocation!!.longitude
             LocateName()
         }
     }
@@ -163,6 +169,14 @@ class AddCurrentLocationActivity : AppCompatActivity() {
     }
 
     fun btnAddOnClicked(view: View?) {
-
+        if (latitute != null && longitute != null) {
+            //val i: Intent = Intent()
+            //i.putExtra("latitute", latitute)
+            //i.putExtra("longitute", longitute)
+            //setResult(RESULT_OK, intent);
+            Static.addCurrentLocation_latitute = latitute
+            Static.addCurrentLocation_longitute = longitute
+            finish()
+        }
     }
 }

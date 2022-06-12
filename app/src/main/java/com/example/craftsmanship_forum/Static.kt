@@ -14,5 +14,8 @@ class Static {
         var useBiometrics: Boolean = false
         var autoLogin: Boolean = true
         var mainActivityFragment: Int = 1
+
+        var addCurrentLocation_latitute: Double? = null
+        var addCurrentLocation_longitute: Double? = null
     }
 }

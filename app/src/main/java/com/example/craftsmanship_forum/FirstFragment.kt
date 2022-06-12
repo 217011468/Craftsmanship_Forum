@@ -95,8 +95,8 @@ class FirstFragment : Fragment() {
                 post.postDate = map.get("postDate") as String?
                 post.creator = map.get("creator") as String?
                 post.content = map.get("content") as String?
-                post.latitute = map.get("latitute") as Double?
-                post.longitute = map.get("longitute") as Double?
+                post.latitute = map.get("latitute") as String?
+                post.longitute = map.get("longitute") as String?
                 post.replys = map.get("replys") as ArrayList<Reply>?
                 _postList!!.add(post)
             }

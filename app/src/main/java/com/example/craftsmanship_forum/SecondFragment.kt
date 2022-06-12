@@ -81,8 +81,8 @@ class SecondFragment : Fragment() {
                 post.postDate = map.get("postDate") as String?
                 post.creator = map.get("creator") as String?
                 post.content = map.get("content") as String?
-                post.latitute = map.get("latitute") as Double?
-                post.longitute = map.get("longitute") as Double?
+                post.latitute = map.get("latitute") as String?
+                post.longitute = map.get("longitute") as String?
                 val _replys = map.get("replys") as ArrayList<HashMap<String, String>>?
                 post.replys = ArrayList<Reply>()
                 if (_replys != null) {
