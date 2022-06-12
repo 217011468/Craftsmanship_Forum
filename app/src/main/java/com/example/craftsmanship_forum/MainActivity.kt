@@ -109,6 +109,14 @@ class MainActivity : AppCompatActivity() {
                     LoginInfo.isLogined = false
                     LoginInfo.email = ""
                     item.title = "Login"
+
+                    binding.btnAdd.visibility = View.GONE
+
+                    // remove account data in SharedPreferences
+                    val editor = sharedPreferences!!.edit()
+                    editor.remove(Static.sharedPreferenceEmail)
+                    editor.remove(Static.sharedPreferencePassword)
+                    editor.commit()
                     Toast.makeText( this, "Logged out", Toast.LENGTH_SHORT).show()
                 } else {
                     val intent = Intent(this, LoginActivity::class.java)
@@ -127,20 +135,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onBtnAddClickListener(view: View) {
-        if (Static.mainActivityFragment == 1) {
-            Toast.makeText(
-                this,
-                "first",
-                Toast.LENGTH_LONG
-            ).show()
-        } else {
-            Toast.makeText(
-                this,
-                "second",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-
         val intent = Intent(this, AddPostActivity::class.java)
         startActivity(intent)
     }

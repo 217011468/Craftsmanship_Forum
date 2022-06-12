@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:text="REGISTER"
         android:onClick="register"
+        android:text="REGISTER"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,8 +54,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="366dp"
-        android:layout_height="56dp"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="170dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,22 +66,12 @@
 
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_weight="1"
-            android:text="Do you have an account?"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/textViewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2.6"
-            android:text="Login"
             android:onClick="goToLogin"
+            android:text="Already have a account? Press me!"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />

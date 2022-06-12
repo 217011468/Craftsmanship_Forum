@@ -43,18 +43,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:text="LOGIN"
         android:onClick="login"
+        android:text="LOGIN"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="366dp"
-        android:layout_height="56dp"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="170dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,22 +65,12 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin">
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_weight="0.75"
-            android:text="Do you have not an account?"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/textViewRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Register"
             android:onClick="goToRegister"
+            android:text="Do not have a account? Press me!"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
