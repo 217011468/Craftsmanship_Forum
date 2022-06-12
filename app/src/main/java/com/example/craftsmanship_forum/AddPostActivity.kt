@@ -1,5 +1,6 @@
 package com.example.craftsmanship_forum
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -78,7 +79,8 @@ class AddPostActivity : AppCompatActivity() {
     }
 
     fun btnAddMapOnclicked(view: View) {
-
+        val intent = Intent(this, AddCurrentLocationActivity::class.java)
+        startActivity(intent)
     }
 
     private fun loadPostList(dataSnapshot: DataSnapshot) {
