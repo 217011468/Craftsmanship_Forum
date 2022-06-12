@@ -91,8 +91,10 @@ class SecondFragment : Fragment() {
                     }
                 }
 
-                if (post.latitute == null || post.longitute == null) {
-                    binding.btnViewMap.visibility = View.GONE
+                if (post.latitute != null && post.longitute != null) {
+                    binding.btnViewMap.visibility = View.VISIBLE
+                } else {
+                    binding.btnViewMap.visibility = View.INVISIBLE
                 }
 
                 if (post.objectId == Static.viewPostObjectId) {
