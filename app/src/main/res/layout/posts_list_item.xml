@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:text="Username: "
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textViewUsername"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="Username"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:text="Post Date: "
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textViewPostDate"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
