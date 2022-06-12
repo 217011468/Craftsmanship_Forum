@@ -30,11 +30,7 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 LoginInfo.isLogined = true
                 LoginInfo.email = email
-                var sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.putString(Static.sharedPreferenceEmail, Base64.encodeToString(email.toByteArray(charset("UTF-8")), Base64.DEFAULT))
-                editor.putString(Static.sharedPreferencePassword, Base64.encodeToString(password.toByteArray(charset("UTF-8")), Base64.DEFAULT))
-                editor.commit()
+                saveAccount(email, password)
                 Toast.makeText( this, "Logged in as $email", Toast.LENGTH_SHORT).show()
                 finish()
 
@@ -44,8 +40,22 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
+    fun toBase64(msg: String): String {
+        return Base64.encodeToString(msg.toByteArray(charset("UTF-8")), Base64.DEFAULT)
+    }
+
+    fun saveAccount(email: String, password: String): Boolean {
+        var sharedPreferences = getSharedPreferences(Static.sharedPreferenceName, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Static.sharedPreferenceEmail, toBase64(email))
+        editor.putString(Static.sharedPreferencePassword, toBase64(password))
+        editor.commit()
+        return true
+    }
+
     fun goToRegister(view: View) {
-        val intent= Intent(this,RegisterActivity::class.java)
+        val intent = Intent(this,RegisterActivity::class.java)
         startActivity(intent)
         finish()
     }
