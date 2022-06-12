@@ -32,6 +32,7 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        Static.mainActivityFragment = 1
         return binding.root
     }
 

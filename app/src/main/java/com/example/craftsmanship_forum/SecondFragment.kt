@@ -32,6 +32,7 @@ class SecondFragment : Fragment() {
     ): View? {
 
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        Static.mainActivityFragment = 2
         return binding.root
 
     }

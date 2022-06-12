@@ -13,5 +13,6 @@ class Static {
         var viewPostObjectId: String? = null
         var useBiometrics: Boolean = false
         var autoLogin: Boolean = true
+        var mainActivityFragment: Int = 1
     }
 }

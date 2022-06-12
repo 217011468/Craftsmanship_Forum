@@ -127,6 +127,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onBtnAddClickListener(view: View) {
+        if (Static.mainActivityFragment == 1) {
+            Toast.makeText(
+                this,
+                "first",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            Toast.makeText(
+                this,
+                "second",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
         val intent = Intent(this, AddPostActivity::class.java)
         startActivity(intent)
     }
@@ -156,6 +170,7 @@ class MainActivity : AppCompatActivity() {
                         LoginInfo.isLogined = true
                         LoginInfo.email = email
                         Toast.makeText(this, "Logged in as $email", Toast.LENGTH_SHORT).show()
+                        binding.btnAdd.visibility = View.VISIBLE
                     }
                 }.addOnFailureListener { exception ->
                     Toast.makeText(
@@ -170,53 +185,56 @@ class MainActivity : AppCompatActivity() {
 
     private fun onBiometricsLogin() {
         if (isSavedLoginInfo()) {
-            var executor = ContextCompat.getMainExecutor(this)
+            try {
+                var executor = ContextCompat.getMainExecutor(this)
 
-            var biometricPrompt = BiometricPrompt(this, executor,
-                object : BiometricPrompt.AuthenticationCallback() {
+                var biometricPrompt = BiometricPrompt(this, executor,
+                    object : BiometricPrompt.AuthenticationCallback() {
 
-                    override fun onAuthenticationError(
-                        errorCode: Int,
-                        errString: CharSequence
-                    ) {
-                        super.onAuthenticationError(errorCode, errString)
-                        Toast.makeText(
-                            applicationContext,
-                            "Authentication error: $errString", Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
+                        override fun onAuthenticationError(
+                            errorCode: Int,
+                            errString: CharSequence
+                        ) {
+                            super.onAuthenticationError(errorCode, errString)
+                            Toast.makeText(
+                                applicationContext,
+                                "Authentication error: $errString", Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
 
-                    override fun onAuthenticationSucceeded(
-                        result: BiometricPrompt.AuthenticationResult
-                    ) {
-                        super.onAuthenticationSucceeded(result)
-                        Toast.makeText(
-                            applicationContext,
-                            "Authentication succeeded!", Toast.LENGTH_SHORT
-                        )
-                            .show()
-                        onAutoLogin()
-                    }
+                        override fun onAuthenticationSucceeded(
+                            result: BiometricPrompt.AuthenticationResult
+                        ) {
+                            super.onAuthenticationSucceeded(result)
+                            Toast.makeText(
+                                applicationContext,
+                                "Authentication succeeded!", Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            onAutoLogin()
+                        }
 
-                    override fun onAuthenticationFailed() {
-                        super.onAuthenticationFailed()
-                        Toast.makeText(
-                            applicationContext, "Authentication failed",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
+                        override fun onAuthenticationFailed() {
+                            super.onAuthenticationFailed()
+                            Toast.makeText(
+                                applicationContext, "Authentication failed",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
 
-                })
+                    })
 
-            var promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Biometric login for my app")
-                .setSubtitle("Log in using your biometric credential")
-                .setNegativeButtonText("Use account password")
-                .build()
+                var promptInfo = BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Biometric login for my app")
+                    .setSubtitle("Log in using your biometric credential")
+                    .setNegativeButtonText("Use account password")
+                    .build()
 
-            biometricPrompt.authenticate(promptInfo)
+                biometricPrompt.authenticate(promptInfo)
+            }
+            catch (ex: Exception) {}
         }
     }
 }
