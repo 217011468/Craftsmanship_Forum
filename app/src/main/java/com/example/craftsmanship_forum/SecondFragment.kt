@@ -91,14 +91,14 @@ class SecondFragment : Fragment() {
                     }
                 }
 
-                if (post.latitute != null && post.longitute != null) {
-                    binding.btnViewMap.visibility = View.VISIBLE
-                } else {
-                    binding.btnViewMap.visibility = View.INVISIBLE
-                }
-
                 if (post.objectId == Static.viewPostObjectId) {
                     _post[0] = post
+
+                    if (post.latitute != null && post.longitute != null) {
+                        binding.btnViewMap.visibility = View.VISIBLE
+                    } else {
+                        binding.btnViewMap.visibility = View.INVISIBLE
+                    }
                 }
             }
         }
@@ -123,9 +123,8 @@ class SecondFragment : Fragment() {
         val longitute = _post[0].longitute
         if (latitute != null && longitute != null) {
             val intent = Intent(context, ShowMapActivity::class.java)
-            _post[0].latitute
-            intent.putExtra("latitute", latitute)
-            intent.putExtra("longitute",longitute)
+            intent.putExtra("latitute", latitute.toDouble())
+            intent.putExtra("longitute",longitute.toDouble())
             startActivity(intent)
         }
 
