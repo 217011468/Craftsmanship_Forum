@@ -37,7 +37,7 @@ class AddPostActivity : AppCompatActivity() {
         }
     }
 
-    fun btnPostCompleteOnclicked(view: View) {
+    private fun btnPostCompleteOnclicked(view: View?) {
         var title = findViewById<EditText>(R.id.editTextPostTitle).text.toString()
         var content = findViewById<EditText>(R.id.editTextPostCotent).text.toString()
 
