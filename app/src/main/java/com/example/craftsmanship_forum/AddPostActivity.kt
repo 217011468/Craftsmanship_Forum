@@ -75,7 +75,7 @@ class AddPostActivity : AppCompatActivity() {
                 return
             }
             val newReply = _db.child("Post").child(Static.viewPostObjectId!!).child("replys")
-            val reply = Reply(LoginInfo.email, SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date()), content)
+            val reply = Reply(LoginInfo.email, content, SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date()))
             _post!!.replys!!.add(reply)
             newReply.setValue(_post!!.replys!!)
             this.finish()
