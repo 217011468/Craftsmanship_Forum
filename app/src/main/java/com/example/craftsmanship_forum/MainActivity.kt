@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun isSavedLoginInfo(): Boolean {
         return sharedPreferences!!.contains(Static.sharedPreferenceEmail) && sharedPreferences!!.contains(
-            Static.sharedPreferenceEmail)
+            Static.sharedPreferencePassword)
     }
 
     private fun onAutoLogin() {

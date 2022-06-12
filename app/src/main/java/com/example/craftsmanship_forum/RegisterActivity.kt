@@ -36,9 +36,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun goToLogin(view: View) {
-        val intent= Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
-
     }
 }
