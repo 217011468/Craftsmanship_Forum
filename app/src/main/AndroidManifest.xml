@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Craftsmanship_Forum">
         <activity
+            android:name=".ShowMapActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddPostActivity"
             android:exported="false" />
         <activity
@@ -35,6 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBxNx2W3jQYlb8047DY4BRTq_iT6oH5p3Q" />
     </application>
 
 </manifest>
