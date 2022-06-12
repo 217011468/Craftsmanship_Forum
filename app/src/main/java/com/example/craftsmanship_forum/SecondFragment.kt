@@ -1,5 +1,6 @@
 package com.example.craftsmanship_forum
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -44,6 +45,8 @@ class SecondFragment : Fragment() {
         _adapter = ViewPostAdapter(view.context, _post)
         binding.listViewViewPosts.setAdapter(_adapter)
         _db.orderByKey().addValueEventListener(_postListener)
+
+        binding.btnViewMap.setOnClickListener { view -> btnViewMapOnClicked(view) }
     }
 
     override fun onDestroyView() {
@@ -78,12 +81,18 @@ class SecondFragment : Fragment() {
                 post.postDate = map.get("postDate") as String?
                 post.creator = map.get("creator") as String?
                 post.content = map.get("content") as String?
+                post.latitute = map.get("latitute") as Double?
+                post.longitute = map.get("longitute") as Double?
                 val _replys = map.get("replys") as ArrayList<HashMap<String, String>>?
                 post.replys = ArrayList<Reply>()
                 if (_replys != null) {
                     for (reply in _replys) {
                         post.replys!!.add(Reply(reply.get("creator")!!, reply.get("content")!!, reply.get("postDate")!!))
                     }
+                }
+
+                if (post.latitute == null || post.longitute == null) {
+                    binding.btnViewMap.visibility = View.GONE
                 }
 
                 if (post.objectId == Static.viewPostObjectId) {
@@ -105,5 +114,18 @@ class SecondFragment : Fragment() {
             // Getting Item failed, log a message
             Log.w(Static.logTag, "loadItem:onCancelled", databaseError.toException())
         }
+    }
+
+    private fun btnViewMapOnClicked(view: View) {
+        val latitute = _post[0].latitute
+        val longitute = _post[0].longitute
+        if (latitute != null && longitute != null) {
+            val intent = Intent(context, ShowMapActivity::class.java)
+            _post[0].latitute
+            intent.putExtra("latitute", latitute)
+            intent.putExtra("longitute",longitute)
+            startActivity(intent)
+        }
+
     }
 }

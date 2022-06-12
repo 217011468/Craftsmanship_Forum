@@ -12,5 +12,7 @@ class Post() {
     var postDate: String? = ""
     var creator: String? = ""
     var content: String? = ""
+    var latitute: Double? = null
+    var longitute: Double? = null
     var replys: ArrayList<Reply>? = ArrayList<Reply>()
 }

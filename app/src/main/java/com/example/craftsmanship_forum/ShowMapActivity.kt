@@ -12,6 +12,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 class ShowMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private var latitute: Double = 0.0
+    private var longitute: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,14 +22,17 @@ class ShowMapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        latitute = intent.getDoubleExtra("latitute", 0.0)
+        longitute = intent.getDoubleExtra("longitute", 0.0)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        val sydney = LatLng(latitute, longitute)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Shop Marker"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }

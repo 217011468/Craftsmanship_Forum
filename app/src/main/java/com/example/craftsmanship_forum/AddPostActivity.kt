@@ -24,10 +24,11 @@ class AddPostActivity : AppCompatActivity() {
         _db = FirebaseDatabase.getInstance("https://craftsmanship-forum-default-rtdb.firebaseio.com/").reference
 
         findViewById<FloatingActionButton>(R.id.btnPostComplete).setOnClickListener { view -> btnPostCompleteOnclicked(view) }
+        findViewById<FloatingActionButton>(R.id.btnAddMap).setOnClickListener { view -> btnAddMapOnclicked(view) }
 
         if (Static.mainActivityFragment == 2) {
             findViewById<EditText>(R.id.editTextPostTitle).visibility = View.GONE
-            findViewById<EditText>(R.id.btnAddMap).visibility = View.GONE
+            findViewById<FloatingActionButton>(R.id.btnAddMap).visibility = View.GONE
             _db.orderByKey().addValueEventListener(_postListener)
         }
     }
@@ -76,6 +77,10 @@ class AddPostActivity : AppCompatActivity() {
         }
     }
 
+    fun btnAddMapOnclicked(view: View) {
+
+    }
+
     private fun loadPostList(dataSnapshot: DataSnapshot) {
         Log.d(Static.logTag, "loadTaskList")
 
@@ -103,6 +108,8 @@ class AddPostActivity : AppCompatActivity() {
                 post.postDate = map.get("postDate") as String?
                 post.creator = map.get("creator") as String?
                 post.content = map.get("content") as String?
+                post.latitute = map.get("latitute") as Double?
+                post.longitute = map.get("longitute") as Double?
                 val _replys = map.get("replys") as ArrayList<HashMap<String, String>>?
                 post.replys = ArrayList<Reply>()
                 if (_replys != null) {
